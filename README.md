@@ -1,6 +1,6 @@
 # shakespeare_plays_project
 
-Example of mongo usage in python app
+Example of MongoDB usage in python app
 
 -----------------УСЛОВИЯ ЗАДАЧИ----------------------------------
 
