@@ -1,0 +1,1 @@
+docker exec -it shakespeare_plays_project_app_1 python app.py

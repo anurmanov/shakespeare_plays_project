@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    hostname: mongo
+    restart: always
+    volumes:
+      - data-mongo:/data/db/
+      - ./docker/mongo:/docker-entrypoint-initdb.d
+    ports:
+      - ${MONGO_EXTERNAL_PORT}:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    stdin_open: true
+    command: /bin/sh -c "python app.py"
+    volumes:
+      - ./app/:/app/
+    environment:
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_EXTERNAL_PORT=${MONGO_EXTERNAL_PORT}
+    depends_on:
+      - mongo
+
+volumes:
+  data-mongo:
