@@ -18,8 +18,8 @@ def mongo_connection(f):
                 os.getenv('MONGO_HOST'),
                 os.getenv('MONGO_EXTERNAL_PORT'),
             )
-            client = pymongo.MongoClient(uri
-                                         )
+            client = pymongo.MongoClient(uri)
+
             result = f(client, *args, **kwargs)
          
         except Exception as exc:
