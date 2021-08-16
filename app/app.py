@@ -187,9 +187,18 @@ def available_commands():
     Command = namedtuple('Command', 'action, description')
 
     commands = dict()
-    commands['0'] = Command(action=None, description='Выход из программы')
-    commands['1'] = Command(action=find_most_actioned_play, description='Поиск пьесы с наибольшим количеством реплик (actions) в пьесах')
-    commands['2'] = Command(action=find_most_popular_characters, description='Поиск самых популярных имен персонажей во всех пьесах')
+    commands['0'] = Command(
+        action=None, 
+        description='Выход из программы'
+    )
+    commands['1'] = Command(
+        action=find_most_actioned_play, 
+        description='Поиск пьесы с наибольшим количеством реплик (actions) в пьесах'
+    )
+    commands['2'] = Command(
+        action=find_most_popular_characters, 
+        description='Поиск самых популярных имен персонажей во всех пьесах'
+    )
 
     return commands
 
