@@ -25,7 +25,7 @@ def mongo_connection(f):
         except Exception as exc:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             trace = traceback.format_exception(exc_type, exc_value, exc_traceback)
-            raise RuntimeError('Error occured. Details: {}'.format(trace)) from exc    
+            raise RuntimeError('Error occurred. Details: {}'.format(trace)) from exc
         
         finally:
             if client:
