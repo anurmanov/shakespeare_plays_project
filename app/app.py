@@ -7,6 +7,9 @@ from collections import namedtuple
 import pymongo
 
 
+Command = namedtuple('Command', 'action, description')
+
+
 def mongo_connection(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
@@ -195,9 +198,8 @@ def find_most_actioned_play(client):
 
 
 def available_commands():
-    Command = namedtuple('Command', 'action, description')
-
     commands = dict()
+
     commands['0'] = Command(
         action=None, 
         description='Выход из программы'
