@@ -1,4 +1,6 @@
 import os
+import sys
+import traceback
 import pprint
 from functools import wraps
 from collections import namedtuple
@@ -8,17 +10,26 @@ import pymongo
 def mongo_connection(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
-        uri = 'mongodb://{}:{}@{}:{}/?authSource=admin'.format(
-            os.getenv('DB_USER'),
-            os.getenv('DB_PASSWORD'),
-            os.getenv('MONGO_HOST'),
-            os.getenv('MONGO_EXTERNAL_PORT'),
-        )
-        client = pymongo.MongoClient(uri
-                                     )
-        result = f(client, *args, **kwargs)
-
-        client.close()
+        client = None
+        try:
+            uri = 'mongodb://{}:{}@{}:{}/?authSource=admin'.format(
+                os.getenv('DB_USER'),
+                os.getenv('DB_PASSWORD'),
+                os.getenv('MONGO_HOST'),
+                os.getenv('MONGO_EXTERNAL_PORT'),
+            )
+            client = pymongo.MongoClient(uri
+                                         )
+            result = f(client, *args, **kwargs)
+         
+        except Exception as exc:
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            trace = traceback.format_exception(exc_type, exc_value, exc_traceback)
+            raise RuntimeError('Error occured. Details: {}'.format(trace)) from exc    
+        
+        finally:
+            if client:
+                client.close()
 
         return result
 
